@@ -1,0 +1,9 @@
+repos:
+  - repo: local
+    hooks:
+      - id: check-ansible-vault
+        name: Check Ansible Vault Encryption
+        entry: bash check_ansible_vault.sh
+        language: system
+        files: ^ansible/inventories/.*/vault/.*$
+        stages: [pre-commit]

@@ -1,0 +1,56 @@
+# This file is managed by ansible
+# Generated {{ '%Y-%m-%d %H:%M:%S' | strftime }}
+# Configuration of the workers and their backends.
+#
+# Global section to enter webui hosts and optional caching
+
+[global]
+# space separated list of webuis to connect to (empty defaults to localhost)
+#HOST = http://openqa.example.host
+# per webui you can define if you want to get the assets and tests over NFS
+# (define a SHARE_DIRECTORY, default /var/lib/openqa/share) or http/rsync.
+# For the later you need to define a cache directory that is big enough.
+# Additionally you need to define the rsync URI to get
+# /var/lib/openqa/tests/ (TESTPOOLSERVER) in the webui section
+CACHEDIRECTORY = /var/lib/openqa/cache
+
+# host address (domain name or IP address) the web UI can reach the worker by
+# (required by the web UI's developer mode and backends using jump-hosts to
+#  reach back to os-autoinst; set if the automatically deduced value is not
+#  sufficient)
+#WORKER_HOSTNAME = openqa-worker.example.host
+
+# Optimize asset uploads. Enabled by default. When enabled the worker will
+# try to copy assets on the file system instead of uploading them to the
+# webui via HTTP, for much better performance (webui and worker need to be
+# running on the same host). For best performance it is also recommended to
+# have /var/lib/openqa/pool and /var/lib/openqa/share/factory on the same file
+# system.
+#LOCAL_UPLOAD = 0
+
+# Whether to terminate after all assigned jobs have been processed. When
+# combined with auto-restarting on service manager level (e.g. configuring
+# Restart=always in the systemd service) this helps applying updates and config
+# changes without interrupting jobs. This setting can be overridden by setting
+# the environment variable OPENQA_WORKER_TERMINATE_AFTER_JOBS_DONE.
+#TERMINATE_AFTER_JOBS_DONE = 0
+
+# Enable an investigation feature to compare the current list of installed
+# packages against the list of packages during the previous last good job.
+# Configuring this variable provides a command line to list the packages and
+# their versions in plain text.
+#PACKAGES_CMD = apt list --installed
+
+# The section ids are the instance of the workers.
+# The key/value pairs will appear in vars.json
+#[1]
+#WORKER_CLASS = 64bit-ipmi
+
+#[2]
+#WORKER_CLASS = qemu_x86_64_staging,qemu_x86_64
+
+#[localhost]
+# SHARE_DIRECTORY = /var/lib/openqa/share
+
+#[openqa.example.host]
+# TESTPOOLSERVER = rsync://deimos.suse.de/openqa-tests

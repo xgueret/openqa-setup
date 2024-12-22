@@ -1,0 +1,33 @@
+---
+- name: Gathers facts about system services, including service names and states.
+  ansible.builtin.service_facts:
+  tags:
+    - install
+
+- name: Deploy openqa ini file template
+  ansible.builtin.template:
+    src: motd.j2
+    dest: /etc/motd
+    mode: '0644'
+  tags:
+    - install
+
+- name: Install common packages
+  ansible.builtin.apt:
+    name: "{{ openqa_common_packages }}"
+    state: present
+  tags:
+    - install
+
+# - name: Setup BDD
+#   ansible.builtin.import_tasks: setup_bdd.yml
+
+- name: Setup openQA
+  ansible.builtin.import_tasks: setup_openqa.yml
+  tags:
+    - install
+
+- name: Configure apache for openqa
+  ansible.builtin.import_tasks: config_apache2.yml
+  tags:
+    - install

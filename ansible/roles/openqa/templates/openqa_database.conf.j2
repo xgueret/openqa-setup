@@ -1,0 +1,25 @@
+# Fichier de configuration de base de données pour OpenQA
+# Emplacement typique : /etc/openqa/database.ini
+
+[production]
+# Type de base de données
+database = postgresql
+
+# Paramètres de connexion
+host = localhost
+database = {{ openqa_db_name | default('openqa') }}
+user = {{ openqa_db_user | default('openqa') }}
+password = {{ openqa_db_password | default('') }}
+
+# Options de connexion avancées
+# Nombre maximum de connexions simultanées
+# max_connections = 10
+
+# Timeout de connexion en secondes
+# connect_timeout = 10
+
+# Active le mode SSL si nécessaire
+# ssl = 1
+
+# Mode de débogage (optionnel)
+# debug = 0

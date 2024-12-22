@@ -1,0 +1,34 @@
+---
+- name: Install and configure OpenQA on Debian 12
+  hosts: openqa
+  become: true
+  pre_tasks:
+    - name: Ensure sytem is update
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: dist
+      tags:
+        - system_prep
+
+  roles:
+    - role: openqa
+      tags:
+        - install
+
+  post_tasks:
+    - name: Verify OpenQA web interface
+      ansible.builtin.get_url:
+        url: "{{ openqa_webui_protocol }}://{{ openqa_webui_ip }}:{{ openqa_webui_port }}/api_keys"
+        dest: /tmp/first_login
+        mode: '0644'
+      tags:
+        - install
+
+    - name: Restart openqa-worker service
+      ansible.builtin.systemd_service:
+        name: "openqa-worker@{{ item }}"
+        state: started
+        enabled: true
+      loop: "{{ range(1, openqa_worker_count + 1) | list }}"
+      tags:
+        - install

@@ -1,0 +1,13 @@
+# This file is managed by ansible
+# Generated {{ '%Y-%m-%d %H:%M:%S' | strftime }}
+## you can generate key and secret via the web ui
+##
+#[openqa.example.com]
+#key = foo
+#secret = bar
+
+{% for domain in openqa_domains %}
+[{{ domain }}]
+key = {{ openqa_api_key }}
+secret = {{ openqa_api_secret }}
+{% endfor %}

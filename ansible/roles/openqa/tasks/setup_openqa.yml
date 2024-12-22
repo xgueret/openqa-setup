@@ -1,0 +1,28 @@
+---
+- name: Install required openQA packages
+  ansible.builtin.apt:
+    name: "{{ openqa_packages }}"
+    state: present
+  tags:
+    - install
+
+- name: Deploy openQA ini file template
+  ansible.builtin.template:
+    src: openqa.ini.j2
+    dest: /etc/openqa/openqa.ini
+    mode: '0644'
+  notify: "Restart openqa services"
+
+- name: Deploy openQA workers ini file template
+  ansible.builtin.template:
+    src: workers.ini.j2
+    dest: /etc/openqa/workers.ini
+    mode: '0644'
+  notify: "Restart openqa services"
+
+- name: Deploy openqa client configuration file template
+  ansible.builtin.template:
+    src: client.conf.j2
+    dest: /etc/openqa/client.conf
+    mode: '0644'
+  notify: "Restart openqa services"

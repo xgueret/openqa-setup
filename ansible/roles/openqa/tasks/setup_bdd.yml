@@ -1,0 +1,49 @@
+# ---
+# - name: Install required postgresql packages
+#   ansible.builtin.apt:
+#     name: "{{ openqa_postgresql_packages }}"
+#     state: present
+#   tags:
+#     - database
+
+# - name: Ensure postgresqlservices is running
+#   ansible.builtin.systemd_service:
+#     name: postgresql
+#     state: started
+#     enabled: true
+#   tags:
+#     - database
+
+# - name: Create Postgresql database
+#   community.postgresql.postgresql_db:
+#     name: "{{ openqa_db_name }}"
+#     state: present
+#     comment: "OpenQA db"
+#   become_user: postgres
+#   become: true
+#   tags:
+#     - database
+
+# - name: Create postgresql user
+#   community.postgresql.postgresql_user:
+#     db: "{{ openqa_db_name }}"
+#     name: "{{ openqa_db_user }}"
+#     password: "{{ openqa_db_password }}"
+#     state: present
+#   become_user: postgres
+#   become: true
+#   tags:
+#     - database
+
+# - name: Configure OpenQA database connection
+#   ansible.builtin.template:
+#     src: templates/openqa_database.conf.j2
+#     dest: /etc/openqa/database.ini
+#     owner: root
+#     group: root
+#     mode: "0644"
+#   notify:
+#     - Restart OpenQA WebUI
+#     - Restart OpenQA Workers
+#   tags:
+#     - configuration
