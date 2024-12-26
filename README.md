@@ -26,8 +26,6 @@ pip install -r requirements.txt
 
 
 
-
-
 ## Terraform
 
 Provisioning of the **openqa-playground** VM in Proxmox, the VM that will be deployed relies on a **debian-12-cloudinit-template** template.

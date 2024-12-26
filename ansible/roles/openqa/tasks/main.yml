@@ -19,8 +19,8 @@
   tags:
     - install
 
-# - name: Setup BDD
-#   ansible.builtin.import_tasks: setup_bdd.yml
+# # - name: Setup BDD
+# #   ansible.builtin.import_tasks: setup_bdd.yml
 
 - name: Setup openQA
   ansible.builtin.import_tasks: setup_openqa.yml

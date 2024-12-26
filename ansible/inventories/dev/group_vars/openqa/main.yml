@@ -1,7 +1,7 @@
 openqa_webui_protocol: http
 openqa_webui_port: 80
 openqa_webui_ip: "{{ vault_openqa_webui_ip }}"
-openqa_webui_appname: hixlabs openQA
+openqa_webui_appname: "HIXLABS-openQA"
 openqa_webui_auth_method: Fake # Fake|OpenID|OAuth2
 
 openqa_domains:

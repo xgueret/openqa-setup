@@ -6,17 +6,62 @@
   tags:
     - install
 
-- name: Deploy openQA ini file template
-  ansible.builtin.template:
-    src: openqa.ini.j2
-    dest: /etc/openqa/openqa.ini
+- name: Check if the openqa.ini backup file exists
+  ansible.builtin.stat:
+    path: "{{ openqa_ini_file_path }}"
+  register: opeqa_ini_backup_file
+
+- name: Backup openqa.ini configuration file
+  ansible.builtin.copy:
+    src: "{{ openqa_ini_file_path }}"
+    dest: "{{ openqa_ini_file_path }}.bak"
+    remote_src: true
+    group: root
+    owner: geekotest
+    mode: '0644'
+  when: not opeqa_ini_backup_file.stat.exists
+
+- name: Modify appname from openqa.ini
+  ansible.builtin.lineinfile:
+    path: "{{ openqa_ini_file_path }}"
+    regexp: '^#appname ='
+    line: "appname = {{ openqa_webui_appname }}"
+    group: root
+    owner: geekotest
+    mode: '0644'
+
+- name: Modify method from openqa.ini
+  ansible.builtin.lineinfile:
+    path: "{{ openqa_ini_file_path }}"
+    regexp: '^# method ='
+    line: "appname = {{ openqa_webui_auth_method }}"
+    group: root
+    owner: geekotest
     mode: '0644'
   notify: "Restart openqa services"
 
-- name: Deploy openQA workers ini file template
-  ansible.builtin.template:
-    src: workers.ini.j2
-    dest: /etc/openqa/workers.ini
+- name: Check if the worker.ini backup file exists
+  ansible.builtin.stat:
+    path: "{{ openqa_worker_ini_file_path }}.bak"
+  register: worker_ini_backup_file
+
+- name: Backup worker.ini configuration file
+  ansible.builtin.copy:
+    src: "{{ openqa_worker_ini_file_path }}"
+    dest: "{{ openqa_worker_ini_file_path }}.bak"
+    remote_src: true
+    group: root
+    owner: geekotest
+    mode: '0644'
+  when: not worker_ini_backup_file.stat.exists
+
+- name: Modify CACHEDIRECTORY from worker.ini
+  ansible.builtin.lineinfile:
+    path: "{{ openqa_worker_ini_file_path }}"
+    regexp: '^#CACHEDIRECTORY ='
+    line: "CACHEDIRECTORY = {{ openqa_cache_dir_path }}"
+    group: root
+    owner: geekotest
     mode: '0644'
   notify: "Restart openqa services"
 

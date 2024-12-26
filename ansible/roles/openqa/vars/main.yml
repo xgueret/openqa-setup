@@ -24,3 +24,7 @@ openqa_apache_modules:
   - proxy_wstunnel
   - rewrite
   - expires
+
+openqa_ini_file_path: /etc/openqa/openqa.ini
+openqa_worker_ini_file_path: /etc/openqa/workers.ini
+openqa_cache_dir_path: /var/lib/openqa/cache
